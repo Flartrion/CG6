@@ -1,24 +1,16 @@
 import java.awt.*
 import javax.swing.JPanel
-import javax.swing.Timer
 import kotlin.math.*
 
-class BezierSurface : JPanel() {
-    val points = ArrayList<Vertex>()
-    val polys = ArrayList<Triple<Int, Int, Int>>()
+class IcoSphere : JPanel() {
+    private val points = ArrayList<Vertex>()
+    private val polys = ArrayList<Triple<Int, Int, Int>>()
     var lightPosition = Vertex(-200.0, 200.0, 200.0)
-
-//    private val bezierCurvePoints = ArrayList<Vertex>()
 
     init {
         preferredSize = Dimension(640, 640)
-        Timer(30) {
-            rotateOnX(-0.5)
-//            rotateOnY(1.0)
-            repaint()
-        }.start()
 
-        points.add(Vertex(0.0, 0.0, -100.0));
+        points.add(Vertex(0.0, 0.0, -100.0))
         val change = sqrt(5.0) / 2
         for (i in 0..4) {
             points.add(
@@ -53,26 +45,6 @@ class BezierSurface : JPanel() {
         }
     }
 
-
-//    fun calculatePoints() {
-//        bezierCurvePoints.clear()
-//        repeat(441) {
-//            bezierCurvePoints.add(Vertex(0.0, 0.0, 0.0))
-//        }
-//        for (u in 0..100 step 5) {
-//            for (v in 0..100 step 5) {
-//                val index = v / 5 + u / 5 * 21
-//                for (i in 0..3) {
-//                    for (j in 0..3) {
-//                        bezierCurvePoints[index] += contourPoints[j + 4 * i] *
-//                                SurfaceMath.bernsteinPoly(3, i, u.toDouble() / 100) *
-//                                SurfaceMath.bernsteinPoly(3, j, v.toDouble() / 100)
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     private fun drawFigureFrom(g: Graphics2D, p1: Vertex, p2: Vertex) {
         val axis = p2 - p1
         val phi = atan2(axis.y, axis.x)
@@ -104,7 +76,6 @@ class BezierSurface : JPanel() {
         objectMatrix[points.size + 4, 3] = 100.0
         objectMatrix[points.size + 4, 4] = 1.0
 
-
         val preparationTransform = TransformMatrixFabric.translate(-p1.x, -p1.y, -p1.z) *
                 TransformMatrixFabric.rotateZ(-phi) *
                 TransformMatrixFabric.rotateY(-theta) *
@@ -131,9 +102,6 @@ class BezierSurface : JPanel() {
             }
             isVisible.add(VectorMath.angleBetween(normals[i], p2 - p1) > PI / 2)
         }
-
-
-
 
         g.translate(100, 100)
         g.color = Color.GRAY
@@ -203,15 +171,6 @@ class BezierSurface : JPanel() {
                 )
             }
         }
-
-//        for (i in contourPoints.size until contourPoints.size - 1) {
-//            val xy1 = Vertex(resultMatrix[i + 1, 1], resultMatrix[i + 1, 2], resultMatrix[i + 1, 3])
-//            val xy2 = Vertex(resultMatrix[i + 2, 1], resultMatrix[i + 2, 2], resultMatrix[i + 2, 3])
-//            g.drawLine(
-//                xy1.x.roundToInt(), xy1.y.roundToInt(),
-//                xy2.x.roundToInt(), xy2.y.roundToInt()
-//            )
-//        }
     }
 
     fun rotateOnX(angle: Double) {
