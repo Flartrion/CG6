@@ -6,7 +6,7 @@ import kotlin.math.*
 class BezierSurface : JPanel() {
     val points = ArrayList<Vertex>()
     val polys = ArrayList<Triple<Int, Int, Int>>()
-    var lightPosition = Vertex(0.0, 0.0, 0.0)
+    var lightPosition = Vertex(-200.0, 200.0, 200.0)
 
 //    private val bezierCurvePoints = ArrayList<Vertex>()
 
@@ -179,9 +179,13 @@ class BezierSurface : JPanel() {
                 yArray[1] = resultMatrix[polys[i].second + 1, 2].roundToInt()
                 yArray[2] = resultMatrix[polys[i].third + 1, 2].roundToInt()
                 val middle = (xy1 + xy2 + xy3) / 3
-                val lightAngle = ()
+                val lightAngle = (VectorMath.angleBetween(normals[i], middle - lightPosition)) / PI
 
-                g.color = Color(min(255, 20 + 140 *))
+                g.color = Color(
+                    min(255.0, 20 + 160 * lightAngle).roundToInt(),
+                    min(255.0, 20 + 160 * lightAngle).roundToInt(),
+                    min(255.0, 20 + 160 * lightAngle).roundToInt()
+                )
                 g.fillPolygon(Polygon(xArray, yArray, 3))
 
                 g.color = Color.BLACK
